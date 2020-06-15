@@ -54,5 +54,4 @@ class Stow(Plugin):
                 options.append("--{}={}".format(ptn_option, ptn))
 
         cmd = ["stow"] + [o for o in options if o] + [package]
-        # subprocess.check_output(cmd)
-        print(cmd)
+        subprocess.check_output(cmd)
