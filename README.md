@@ -10,7 +10,9 @@ Add this repo as a submodule to your dotfiles repo:
 
 Modify your `install` script:
 
-`"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" --plugin-dir dotbot-stow -c "${CONFIG}" "${@}"`
+```bash
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" --plugin-dir dotbot-stow -c "${CONFIG}" "${@}"
+```
 
 # Usage
 
@@ -33,6 +35,6 @@ Modify your `install` script:
       adopt: false
       ignore: "md"
       defer: "flake8"
-      override: ".*\.vim"
+      override: "fish"
     vim:
 ```
