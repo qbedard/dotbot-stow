@@ -4,6 +4,8 @@ from dotbot import Plugin
 
 
 class Stow(Plugin):
+    _directive = "stow"
+
     def can_handle(self, directive):
         pass
 
