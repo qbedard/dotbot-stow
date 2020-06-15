@@ -7,14 +7,14 @@ class Stow(Plugin):
     _directive = "stow"
 
     def can_handle(self, directive):
-        pass
+        return directive == self._directive
 
     def handle(self, directive, data):
         if directive != self._directive:
             raise ValueError("Stow cannot handle directive %s" % directive)
-        return self._process_packages(data)
+        return self._process(data)
 
-    def _process_packages(self, packages):
+    def _process(self, packages):
         success = True
         defaults = self._context.defaults().get("stow", {})
         if isinstance(packages, str):
@@ -33,10 +33,9 @@ class Stow(Plugin):
                     options["package"] = package
                     options.update(value)
                 else:
-                    options.update({
-                        "package": package,
-                        "target": value,
-                    })
+                    options.update(
+                        {"package": package, "target": value,}
+                    )
                 self._stow(**options)
         return success
 
