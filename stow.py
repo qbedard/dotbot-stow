@@ -21,12 +21,12 @@ class Stow(Plugin):
         if isinstance(packages, str):
             options = defaults.copy()
             options["package"] = packages
-            self._stow(**options)
+            success = self._stow(**options)
         elif isinstance(packages, list):
             for package in packages:
                 options = defaults.copy()
                 options["package"] = package
-                self._stow(**options)
+                success = self._stow(**options) and success
         elif isinstance(packages, dict):
             for package, value in packages.items():
                 options = defaults.copy()
@@ -37,7 +37,11 @@ class Stow(Plugin):
                     options.update(
                         {"package": package, "target": value,}
                     )
-                self._stow(**options)
+                success = self._stow(**options) and success
+        if success:
+            self._log.info("All packages have been stowed")
+        else:
+            self._log.error("Some packages were not successfully stowed")
         return success
 
     def _stow(self, package=".", target=None, restow=True, adopt=False, **kwargs):
@@ -58,4 +62,4 @@ class Stow(Plugin):
                 options.append("--{}={}".format(ptn_option, ptn))
 
         cmd = ["stow"] + [o for o in options if o] + [package]
-        subprocess.check_output(cmd)
+        return subprocess.call(cmd) is 0
