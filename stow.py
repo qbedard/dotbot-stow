@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 from dotbot import Plugin
@@ -42,7 +43,9 @@ class Stow(Plugin):
     def _stow(self, package=".", target=None, restow=True, adopt=False, **kwargs):
         options = [
             "--dir={}".format(self._context.base_directory()),
-            "--target={}".format(target) if target else None,
+            "--target={}".format(os.path.expandvars(os.path.expanduser(target)))
+            if target
+            else None,
             "--restow" if restow else "--stow",
             "--adopt" if adopt else None,
         ]
