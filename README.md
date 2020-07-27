@@ -29,7 +29,7 @@ Modify your `install` script:
 
 # full config
 - stow:
-    config: 
+    config:
       target: ~/.config
       restow: true
       adopt: false

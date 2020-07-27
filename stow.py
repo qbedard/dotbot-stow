@@ -18,6 +18,7 @@ class Stow(Plugin):
     def _process(self, packages):
         success = True
         defaults = self._context.defaults().get("stow", {})
+
         if isinstance(packages, str):
             options = defaults.copy()
             options["package"] = packages
@@ -34,14 +35,14 @@ class Stow(Plugin):
                     options["package"] = package
                     options.update(value)
                 else:
-                    options.update(
-                        {"package": package, "target": value,}
-                    )
+                    options.update({"package": package, "target": value})
                 success = self._stow(**options) and success
+
         if success:
             self._log.info("All packages have been stowed")
         else:
             self._log.error("Some packages were not successfully stowed")
+
         return success
 
     def _stow(self, package=".", target=None, restow=True, adopt=False, **kwargs):
@@ -62,4 +63,5 @@ class Stow(Plugin):
                 options.append("--{}={}".format(ptn_option, ptn))
 
         cmd = ["stow"] + [o for o in options if o] + [package]
-        return subprocess.call(cmd) is 0
+
+        return subprocess.call(cmd) == 0
